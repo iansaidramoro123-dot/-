@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Mejores Amigos?</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 90%;
+        }
+
+        h1 {
+            color: #333333;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .emoji-avatar {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        /* Botón Rosa Inicial */
+        .btn-rosa {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+        }
+
+        /* Botones de la segunda pantalla */
+        .btn-si {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        .btn-no {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            max-width: 250px;
+        }
+
+        .final-h1 {
+            color: #2e7d32;
+            font-size: 2.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="pantalla1" class="container">
+        <h1>hola ¿ y bien que sera?:(</h1>
+        <button class="btn-rosa" id="btnProcesarInicio">ACA</button>
+    </div>
+
+    <div id="pantalla2" class="container" style="display: none;">
+        <div id="emojiGato" class="emoji-avatar">🐱</div>
+        <h1>¿Podemos volver a ser best friends kbzonzita??</h1>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 10px; min-height: 150px;">
+            <button id="btnSi" class="btn-si">Sí</button>
+            <button id="btnNo" class="btn-no">No</button>
+        </div>
+    </div>
+
+    <div id="pantalla3" class="container" style="display: none;">
+        <div class="emoji-avatar">😸🎉</div>
+        <h1 class="final-h1">JJSKJA GRACIASSS,TE QUEYO</h1>
+    </div>
+
+    <script>
+        // Textos para el botón NO
+        const frasesNo = [
+            "No",
+            "k t pasa",
+            "porfavorrrrr",
+            "Vamos solo di que si 🥺",
+            "Solo es darle al si c:",
+            " c:",
+            "eyyy",
+            "Ok pero me pondré triste ):",
+            "Solo quiero ser tu best friend c:",
+            "¿En serio no? 💔",
+            "¿Por qué me dices nooo?",
+            "¡Las risas no faltarán!",
+            "¡TE REGALO LO QUE QUIERAS!",
+            "¿De verdad no quieres ser mi mejor amigo?",
+            "¿Ni una oportunidad para nuestra amistad? c:"
+        ];
+
+        const emojisGatos = ["🐱", "👀", "EYYY", "😿", "😭", "💔", "🥺"];
+
+        let contadorClicks = 0;
+        let paddingV = 12;
+        let paddingH = 35;
+        let fontS = 1.2;
+
+        const p1 = document.getElementById('pantalla1');
+        const p2 = document.getElementById('pantalla2');
+        const p3 = document.getElementById('pantalla3');
+        const btnSi = document.getElementById('btnSi');
+        const btnNo = document.getElementById('btnNo');
+        const emojiGato = document.getElementById('emojiGato');
+
+        // Evento para el primer botón rosa
+        document.getElementById('btnProcesarInicio').addEventListener('click', function() {
+            p1.style.display = 'none';
+            p2.style.display = 'block';
+        });
+
+        // Evento para el botón NO (Agrandar el SÍ)
+        btnNo.addEventListener('click', function() {
+            contadorClicks++;
+            
+            // Cambiar texto
+            if (contadorClicks < frasesNo.length) {
+                btnNo.innerText = frasesNo[contadorClicks];
+            } else {
+                btnNo.innerText = "Por favooor... 🥺";
+            }
+
+            // Cambiar emoji
+            if (contadorClicks < emojisGatos.length) {
+                emojiGato.innerText = emojisGatos[contadorClicks];
+            } else {
+                emojiGato.innerText = "🥀";
+            }
+
+            // Agrandar botón SÍ
+            paddingV += 25;
+            paddingH += 45;
+            fontS += 0.5;
+
+            btnSi.style.padding = paddingV + 'px ' + paddingH + 'px';
+            btnSi.style.fontSize = fontS + 'rem';
+
+            // Si se hace gigante, cubre la pantalla
+            if (contadorClicks >= 10 || paddingV > 180) {
+                btnNo.style.display = 'none';
+                btnSi.style.position = 'fixed';
+                btnSi.style.top = '0';
+                btnSi.style.left = '0';
+                btnSi.style.width = '100vw';
+                btnSi.style.height = '100vh';
+                btnSi.style.fontSize = '4rem';
+                btnSi.style.borderRadius = '0';
+                btnSi.style.display = 'flex';
+                btnSi.style.justifyContent = 'center';
+                btnSi.style.alignItems = 'center';
+            }
+        });
+
+        // Evento para el botón SÍ
+        btnSi.addEventListener('click', function() {
+            p2.style.display = 'none';
+            p3.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
